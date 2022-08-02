@@ -18,13 +18,12 @@ import cpsajson
 
 def main():
     if len(sys.argv) != 2:      # Ensure one file name supplied
-        print("Usage: " + sys.argv[0] + " file")
+        print(f"Usage: {sys.argv[0]} file")
         sys.exit(1)
     fname = sys.argv[1]
     (root, ext) = os.path.splitext(fname)
-    f = open(fname, 'r')
-    xs = cpsajson.load(f)
-    f.close()
+    with open(fname, 'r') as f:
+        xs = cpsajson.load(f)
     i = 0                       # Skeleton number
     pd = {}                     # Protocol dictionary
     h = []                      # Herald form
@@ -35,13 +34,12 @@ def main():
             pd[x[1]] = x        # Store protocol
         elif x[0] == "defskeleton":
             p = pd[x[1]]        # Look up protocol
-            f = open(root + "_" + str(i) + ext, 'w')
-            i += 1
-            if h:               # Dump herald (maybe)
-                json.dump(h, f)
-            json.dump(p, f)     # Dump protocol
-            json.dump(x, f)     # Dump skeleton
-            f.close()
+            with open(f"{root}_{str(i)}{ext}", 'w') as f:
+                i += 1
+                if h:               # Dump herald (maybe)
+                    json.dump(h, f)
+                json.dump(p, f)     # Dump protocol
+                json.dump(x, f)     # Dump skeleton
 
 if __name__ == "__main__":
     main()

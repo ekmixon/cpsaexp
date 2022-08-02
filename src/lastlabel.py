@@ -18,7 +18,7 @@ def main():
         print("Expects JSON translation of CPSA output on standard input")
         print("cpsa4pp -j file | ./lastlabel.py")
         print()
-        print("Usage: " + sys.argv[0])
+        print(f"Usage: {sys.argv[0]}")
         sys.exit(1)
     xs = cpsajson.load(sys.stdin)
 
